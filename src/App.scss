@@ -1,0 +1,36 @@
+.App {
+  text-align: center;
+}
+
+.lead {
+  display:block;
+  width: 100%;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+.lead:first-of-type {
+  animation: showup 3s forwards;
+}
+
+.lead:last-of-type span {
+  margin-left:-355px;
+  animation: slidein 6s forwards;
+}
+
+@keyframes showup {
+    0% {opacity:0;}
+    15% { opacity: 0;}
+    20% {opacity:1;}
+    90% { opacity: 1;}
+    100% { opacity: 0; display: none; }
+}
+
+@keyframes slidein {
+    0% { margin-left:-800px; opacity: 0; }
+    10% { margin-left:-800px; }
+    15% { opacity: 0; }
+    20% { margin-left:0px; opacity: 1; }
+    90% { margin-left:0px; opacity: 1; }
+    100% { margin-left:0px; opacity: 0; display: none; }
+}

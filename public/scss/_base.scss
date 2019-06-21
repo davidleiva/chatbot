@@ -1,0 +1,40 @@
+@import './vars.scss';
+@import './mixins';
+
+body {
+    @include gradient($yellow, $orange);
+    min-height: 100vh;
+    padding-top: $baseline * 4;
+    overflow: hidden;
+    font-family: $font-family-sans-serif-new;
+    padding: 0;
+}
+
+.header {
+    &__wrapper {
+        flex-wrap: wrap;
+        margin-bottom: $baseline * 4;
+        width: 100vw;
+    }
+
+    &__logo {
+        width: $widthUnit * 8;
+    }
+
+    .lead {
+        margin-bottom: 0;
+    }
+}
+
+.app__container {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    max-width: 100vw !important;
+    padding: 0 !important;
+    flex-wrap: wrap;
+}
+
+.verdana {
+    font-family: Verdana, Geneva, sans-serif;
+}

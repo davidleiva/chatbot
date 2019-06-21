@@ -1,0 +1,51 @@
+@import '../../../public/scss/vars';
+
+$module: 'messages';
+
+.#{$module} {
+    &__message {
+        display: flex;
+        margin-bottom: $baseline;
+
+        &[data-author="user"]  {
+            justify-content: flex-end;
+
+            .#{$module}__text {
+                background: $blue;
+            }
+        }
+    }
+
+    &__text {
+        display: inline-block;
+        background: $grey;
+        color: white;
+        font-size: 13px;
+        margin-bottom: 0;
+        padding: 8px 16px;
+        border-radius: 24px;
+    }
+
+    &__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 24px 0;
+
+        .#{$module}__button {
+            margin: 4px 2px;
+        }
+    }
+
+    &__button {
+        width: calc(33% - 2px);
+        border: 2px solid $infoDarkerColor;
+        padding: 1rem;
+    }
+
+    &__image {
+        max-height: 200px;
+        margin: 16px 0
+    }
+
+}
