@@ -9676,11 +9676,12 @@ body {
 
 .header__wrapper {
   flex-wrap: wrap;
-  margin-bottom: 32px;
   width: 100vw;
 }
 .header__logo {
   width: 128px;
+  height: 24px;
+  margin-top: 16px;
 }
 .header .lead {
   margin-bottom: 0;

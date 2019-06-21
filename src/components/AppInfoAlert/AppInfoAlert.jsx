@@ -7,9 +7,15 @@ class AppInfoAlert extends React.Component {
     super(props);
     this.state = {
       clicked: false,
-      alertActive: true
+      alertActive: true,
+      loaded: false
     };
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentWillMount() {
+    const self = this;
+    self.setState({ loaded: true });
   }
 
   /**
@@ -31,42 +37,45 @@ class AppInfoAlert extends React.Component {
   }
 
   render() {
-    if (this.state.clicked === true) {
+    if (this.state.clicked === true || this.state.loaded === false) {
       return null;
     }
-    return (
-      <div
-        className={`appinfo d-flex justify-content-center ${
-          !this.state.alertActive ? 'appinfo--disabled' : ''
-        }`}
-      >
-        <div className="appinfo__alert alert alert-info alert-dismissible fade show" role="alert">
-          <div className="appinfo__row row flex-nowrap align-items-center m-0">
-            <div className="appinfo__iconcontainer">
-              <i className="fas fa-info-circle icon" />
+    if (this.state.loaded === true) {
+      return (
+        <div
+          className={`appinfo d-flex justify-content-center ${
+            !this.state.alertActive ? 'appinfo--disabled' : ''
+          }`}
+        >
+          <div className="appinfo__alert alert alert-info alert-dismissible fade show" role="alert">
+            <div className="appinfo__row row flex-nowrap align-items-center m-0">
+              <div className="appinfo__iconcontainer">
+                <i className="fas fa-info-circle icon" />
+              </div>
+              <div className="appinfo__text">
+                <h6 className="alert-heading appinfo__heading">
+                  Do you need help or have problems with your purchase?
+                  <br />
+                  You can ask Mark whatever you need ...
+                </h6>
+              </div>
             </div>
-            <div className="appinfo__text">
-              <h6 className="alert-heading appinfo__heading">
-                Do you need help or have problems with your purchase?
-                <br />
-                You can ask Mark whatever you need ...
-              </h6>
-            </div>
+            <button
+              type="button"
+              className="close"
+              data-dismiss="alert"
+              aria-label="Close"
+              onClick={this.handleClick}
+            >
+              <span aria-hidden="true" className="appinfo__close">
+                &times;
+              </span>
+            </button>
           </div>
-          <button
-            type="button"
-            className="close"
-            data-dismiss="alert"
-            aria-label="Close"
-            onClick={this.handleClick}
-          >
-            <span aria-hidden="true" className="appinfo__close">
-              &times;
-            </span>
-          </button>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 

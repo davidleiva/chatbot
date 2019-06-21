@@ -11,19 +11,26 @@ $module: 'messages';
             justify-content: flex-end;
 
             .#{$module}__text {
-                background: $blue;
+                background: #d0deff;
             }
         }
     }
 
     &__text {
         display: inline-block;
-        background: $grey;
-        color: white;
+        background: #f1f1f1;
+        color: #08183c;
         font-size: 13px;
         margin-bottom: 0;
-        padding: 8px 16px;
-        border-radius: 24px;
+        padding: 16px;
+        border-radius: 3px;
+
+        > a {
+            padding: $baseline / 2;
+            background: $yellow;
+            text-decoration: underline;
+            color: $blue;
+        }
     }
 
     &__buttons {

@@ -4,6 +4,7 @@
     flex-wrap: wrap;
     transform: scale(1);
     transform-origin: top right;
+    width: 100%;
 
     &__alert {
         width: calc(100vw - (#{$widthUnit} * 7.5));
@@ -19,6 +20,10 @@
         margin-bottom: 0;
         font-size: 14px;
         font-weight: 400;
+    }
+
+    &__row {
+        height: 100%;
     }
 
     .icon {
@@ -66,7 +71,7 @@
 
     &__iconcontainer {
         background-color: $white;
-        padding: 16px;
+        padding: $baseline;
     }
 
     &__text {

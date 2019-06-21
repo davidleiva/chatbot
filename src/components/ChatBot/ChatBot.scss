@@ -4,13 +4,13 @@ $module: 'chatbot';
 
 .#{$module} {
     &__wrapper {
-        width: 540px;
-        height: 480px;
+        height: 80vh;
+        width: 80vw;
+        max-width: 640px;
         margin: 0 auto;
         box-shadow: 0px 10px 10px 2px #ca972d;
         border: 1px solid #bdbdbd;
         border-radius: 8px 8px 0 0;
-        left: calc(50% - 270px);
         align-self: flex-end;
     }
 

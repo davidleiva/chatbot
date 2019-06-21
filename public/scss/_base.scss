@@ -13,12 +13,13 @@ body {
 .header {
     &__wrapper {
         flex-wrap: wrap;
-        margin-bottom: $baseline * 4;
         width: 100vw;
     }
 
     &__logo {
         width: $widthUnit * 8;
+        height: $baseline * 3;
+        margin-top: $baseline * 2;
     }
 
     .lead {

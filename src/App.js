@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import AppInfoAlert from './components/AppInfoAlert/AppInfoAlert';
+// import AppInfoAlert from './components/AppInfoAlert/AppInfoAlert';
 import ChatBot from './components/ChatBot/ChatBot';
 
 export const App = () => {
@@ -8,12 +8,16 @@ export const App = () => {
     <div className="container app__container">
       <header className="header__wrapper d-flex justify-content-center align-items-stretch">
         <img className="header__logo" src="/img/ikea-logo.svg" alt="Ikea's Logo" />
-        <p className="lead w-100 text-center">
-          Thank you
-          <span>for your purchase!</span>
+        <p className="lead w-100 text-center verdana">
+          Thanks
+          <span> for your purchase!</span>
+        </p>
+        <p>
+          Do you have any problem?
+          <b> ask our assistant</b>
         </p>
       </header>
-      <AppInfoAlert />
+      {/* <AppInfoAlert /> */}
       <ChatBot />
     </div>
   );
