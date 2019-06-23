@@ -69,8 +69,10 @@ class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: []
+      messages: [],
+      payloads: []
     };
+    this.sendMultiAnswer = this.sendMultiAnswer.bind(this);
 
     core.init().then(data => {
       const myMessages = Object.values(data.messages)
@@ -78,6 +80,9 @@ class Messages extends Component {
         .sort((a, b) => a.timestamp - b.timestamp);
       myMessages.forEach((element, index) => {
         const newMessage = Messages.addPropertiesToMessage(element);
+        if (newMessage.type === 'dialog') {
+          console.log(newMessage);
+        }
         myMessages[index] = newMessage;
       });
 
@@ -117,6 +122,32 @@ class Messages extends Component {
   messagesFilter = element =>
     element.type !== 'referral' || (element.type === 'text' && element.mesage.length > 0);
 
+  updatePayloads = ev => {
+    const { payloads } = this.state;
+    const myPayloads = payloads;
+
+    if (Object.values(myPayloads).indexOf(ev.target.dataset.payload) > -1) {
+      myPayloads.remove(ev.target.dataset.payload);
+    } else {
+      myPayloads.push(ev.target.dataset.payload);
+    }
+    this.setState({
+      payloads: myPayloads
+    });
+    console.log(this.state.payloads);
+  };
+
+  sendMultiAnswer() {
+    const { payloads } = this.state;
+    console.log(payloads);
+    core.sendMessage({
+      type: 'button',
+      message: 'Nice',
+      payload: ['$0', '$1'],
+      text: 'Nice'
+    });
+  }
+
   /**
    * sends message coming from props on parent component
    */
@@ -141,26 +172,74 @@ class Messages extends Component {
       } else if (message.buttons) {
         const { buttons } = message;
         const { payloads } = message;
+        let sendMultiOption = null;
         const buttonsPayloads = buttons.map((button, i) => {
           return {
             text: button,
             payload: payloads[i]
           };
         });
+        let myButtons = null;
+        if (message.extra && message.extra.buttons && message.extra.buttons.multi === true) {
+          myButtons = Object.keys(buttonsPayloads).map(key => (
+            <button
+              className="btn-group-toggle"
+              key={`button${buttonsPayloads[key].payload}`}
+              type="button"
+              data-payload={buttonsPayloads[key].payload}
+              onClick={this.updatePayloads}
+            >
+              {buttonsPayloads[key].text}
+            </button>
+            // <div
+            //   className="btn-group-toggle"
+            //   role="button"
+            //   tabIndex={0}
+            //   onKeyUp={this.sendMultiAnswer}
+            //   key={`button${buttonsPayloads[key].payload}`}
+            //   data-toggle="buttons"
+            // >
+            //   <label
+            //     htmlFor={`input${buttonsPayloads[key].payload}`}
+            //     className="btn btn-lg btn-info messages__checkboxcontainer"
+            //   >
+            //     <input
+            //       className="messages__checkbox"
+            //       id={`input${buttonsPayloads[key].payload}`}
+            //       type="checkbox"
+            //       autoComplete="off"
+            //     />
+            //     {buttonsPayloads[key].text}
+            //   </label>
+            // </div>
+          ));
+          sendMultiOption = (
+            <div className="d-flex justify-content-end">
+              <button
+                className="messages__button messages__sendanswers btn btn-lg btn-info"
+                type="button"
+                onClick={this.sendMultiAnswer}
+              >
+                Send answer
+              </button>
+            </div>
+          );
+        } else {
+          myButtons = Object.keys(buttonsPayloads).map(key => (
+            <button
+              data-type={message.type}
+              className="messages__button btn btn-lg btn-info"
+              type="button"
+              key={`button${buttonsPayloads[key].payload}`}
+              data-message={buttonsPayloads[key].text}
+              data-payload={buttonsPayloads[key].payload}
+              onClick={this.sendButtonAnswer}
+            >
+              {buttonsPayloads[key].text}
+            </button>
+          ));
+        }
 
-        const myButtons = Object.keys(buttonsPayloads).map(key => (
-          <button
-            data-type={message.type}
-            className="messages__button btn btn-lg btn-info"
-            type="button"
-            key={`button${buttonsPayloads[key].payload}`}
-            data-message={buttonsPayloads[key].text}
-            data-payload={buttonsPayloads[key].payload}
-            onClick={this.sendButtonAnswer}
-          >
-            {buttonsPayloads[key].text}
-          </button>
-        ));
         messages[index].myHTML = (
           <div className="w-100">
             <p
@@ -169,6 +248,7 @@ class Messages extends Component {
               dangerouslySetInnerHTML={{ __html: message.text }}
             />
             <div className="messages__buttons">{myButtons}</div>
+            {sendMultiOption}
           </div>
         );
       } else if (message.type === 'iframe') {
