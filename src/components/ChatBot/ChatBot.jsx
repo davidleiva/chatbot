@@ -14,6 +14,10 @@ class ChatBot extends React.Component {
     this.myMessages = React.createRef();
   }
 
+  /**
+   * Triggers Messages.sendMessage()
+   * @param {Object} event
+   */
   onSendNewMessage = e => {
     e.preventDefault();
     this.myMessages.current.sendMessage();
