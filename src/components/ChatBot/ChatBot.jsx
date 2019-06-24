@@ -7,7 +7,8 @@ class ChatBot extends React.Component {
   constructor() {
     super();
     this.state = {
-      newMessage: ''
+      newMessage: '',
+      disabled: true
     };
     this.onSendNewMessage = this.onSendNewMessage.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -21,15 +22,25 @@ class ChatBot extends React.Component {
   onSendNewMessage = e => {
     e.preventDefault();
     this.myMessages.current.sendMessage();
+    this.setState({
+      disabled: true,
+      newMessage: ''
+    });
   };
 
+  /**
+   * Function Triggered when input text is changed so we can creste and update Custom State property
+   * @param {Object} target
+   */
   handleChange({ target }) {
     this.setState({
-      [target.name]: target.value
+      [target.name]: target.value,
+      disabled: false
     });
   }
 
   render() {
+    const { disabled } = this.state;
     const { newMessage } = this.state;
     return (
       <div className="chatbot__wrapper d-flex">
@@ -65,6 +76,7 @@ class ChatBot extends React.Component {
                   className="btn btn-primary"
                   type="button"
                   id="button-addon2"
+                  disabled={disabled === true}
                   onClick={this.onSendNewMessage}
                 >
                   <span className="d-none">Button</span>
