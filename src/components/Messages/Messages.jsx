@@ -1,12 +1,14 @@
 /* eslint-disable react/no-danger */
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import * as Landbot from '@landbot/core';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import PropTypes from 'prop-types';
 
 import './Messages.scss';
+
+import CheckboxButton from '../CheckboxButton/CheckboxButton';
 
 const core = new Landbot.Core({
   firebase,
@@ -244,16 +246,21 @@ class Messages extends Component {
     });
 
     const myButtons = Object.keys(buttonsPayloads).map(key => (
-      <button
-        className="btn-group-toggle"
-        key={`button${buttonsPayloads[key].payload}`}
-        type="button"
-        data-text={buttonsPayloads[key].text}
-        data-payload={buttonsPayloads[key].payload}
-        onClick={this.updatePayloads}
-      >
-        {buttonsPayloads[key].text}
-      </button>
+      <CheckboxButton checkboxData={buttonsPayloads[key]} />
+      // <button
+      //   className="btn-group-toggle"
+      //   tabIndex="0"
+      //   key={`button${buttonsPayloads[key].payload}`}
+      //   type="button"
+      //   data-text={buttonsPayloads[key].text}
+      //   data-toggle="buttons"
+      //   data-payload={buttonsPayloads[key].payload}
+      //   onClick={this.updatePayloads}
+      //   onKeyUp={this.updatePayloads}
+      //   disabled={!this.state.purchaseKeys.indexOf({`button${buttonsPayloads[key].payload}`})}
+      // >
+      //   {buttonsPayloads[key].text}
+      // </button>
     ));
 
     const sendMultiOption = (
@@ -387,14 +394,14 @@ class Messages extends Component {
 }
 
 /**
- * Good practices - propTypes setter. See ESLinter Info.
+ * Good practices - propTypes setter.
  */
 Messages.propTypes = {
   message: PropTypes.string
 };
 
 /**
- * Good practices - defaultProps setter. See ESLinter Info.
+ * Good practices - defaultProps setter.
  */
 Messages.defaultProps = {
   message: null
