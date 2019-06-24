@@ -5,25 +5,33 @@ class CheckboxButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: false
+      disabled: false
     };
+    this.handleAction = this.handleAction.bind(this);
   }
+
+  handleAction = ev => {
+    const { action } = this.props;
+    this.setState(prevState => ({
+      disabled: !prevState.disabled
+    }));
+    action(ev);
+  };
 
   render() {
     const { checkboxData } = this.props;
-    const { checked } = this.state;
+    const { disabled } = this.state;
     return (
       <button
         className="btn-group-toggle"
         tabIndex="0"
-        checked={checked}
-        key={`button${checkboxData.payload}`}
         type="button"
         data-text={checkboxData.text}
         data-toggle="buttons"
         data-payload={checkboxData.payload}
-        onClick={this.updatePayloads}
-        onKeyUp={this.updatePayloads}
+        onClick={this.handleAction}
+        onKeyUp={this.handleAction}
+        disabled={disabled}
       >
         {checkboxData.text}
       </button>
@@ -35,14 +43,18 @@ class CheckboxButton extends Component {
  * Good practices - propTypes setter.
  */
 CheckboxButton.propTypes = {
-  checkboxData: PropTypes.objectOf
+  checkboxData: PropTypes.shape({
+    checkboxData: PropTypes.string
+  }),
+  action: PropTypes.func
 };
 
 /**
  * Good practices - defaultProps setter.
  */
 CheckboxButton.defaultProps = {
-  checkboxData: null
+  checkboxData: null,
+  action: null
 };
 
 export default CheckboxButton;

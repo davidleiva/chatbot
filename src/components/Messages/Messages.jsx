@@ -26,7 +26,7 @@ const core = new Landbot.Core({
     block_custom: false,
     delay: {
       is_constant: true,
-      constant: 0.5,
+      constant: 1,
       max_delay: 2,
       average_human_reading_speed: 300
     }
@@ -76,6 +76,7 @@ class Messages extends Component {
       purchaseText: []
     };
     this.sendMultiAnswer = this.sendMultiAnswer.bind(this);
+    this.ckeckboxHandler = this.ckeckboxHandler.bind(this);
 
     core.init().then(data => {
       const myMessages = Object.values(data.messages)
@@ -83,9 +84,6 @@ class Messages extends Component {
         .sort((a, b) => a.timestamp - b.timestamp);
       myMessages.forEach((element, index) => {
         const newMessage = Messages.addPropertiesToMessage(element);
-        if (newMessage.type === 'dialog') {
-          console.log(newMessage);
-        }
         myMessages[index] = newMessage;
       });
 
@@ -144,10 +142,10 @@ class Messages extends Component {
     element.type !== 'referral' || (element.type === 'text' && element.mesage.length > 0);
 
   /**
-   * Updates State's PayLoads
+   * Updates State's PayLoads and Texts from checkboxes
    * {Object} - ev
    */
-  updatePayloads = ev => {
+  ckeckboxHandler = ev => {
     const { purchasePayloads } = this.state;
     const { purchaseText } = this.state;
     let myPayloads = purchasePayloads;
@@ -246,21 +244,11 @@ class Messages extends Component {
     });
 
     const myButtons = Object.keys(buttonsPayloads).map(key => (
-      <CheckboxButton checkboxData={buttonsPayloads[key]} />
-      // <button
-      //   className="btn-group-toggle"
-      //   tabIndex="0"
-      //   key={`button${buttonsPayloads[key].payload}`}
-      //   type="button"
-      //   data-text={buttonsPayloads[key].text}
-      //   data-toggle="buttons"
-      //   data-payload={buttonsPayloads[key].payload}
-      //   onClick={this.updatePayloads}
-      //   onKeyUp={this.updatePayloads}
-      //   disabled={!this.state.purchaseKeys.indexOf({`button${buttonsPayloads[key].payload}`})}
-      // >
-      //   {buttonsPayloads[key].text}
-      // </button>
+      <CheckboxButton
+        action={this.ckeckboxHandler}
+        checkboxData={buttonsPayloads[key]}
+        key={`button${buttonsPayloads[key].payload + buttonsPayloads[key].text}`}
+      />
     ));
 
     const sendMultiOption = (
