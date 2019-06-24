@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.scss';
-// import AppInfoAlert from './components/AppInfoAlert/AppInfoAlert';
 import ChatBot from './components/ChatBot/ChatBot';
 
 export const App = () => {
@@ -17,7 +16,6 @@ export const App = () => {
           <b> ask our assistant</b>
         </p>
       </header>
-      {/* <AppInfoAlert /> */}
       <ChatBot />
     </div>
   );
